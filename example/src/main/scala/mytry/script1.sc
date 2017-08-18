@@ -9,6 +9,8 @@ sumofsquare(3, 2+2)
 def loop: Int = loop
 
 //loop
+def x = loop
+
 
 def first(x:Int, y: Int) = x
 //first(1, loop)  // 默认是call-by-value
@@ -19,14 +21,30 @@ constOne(1+2, loop)  // y是call-by-name
 
 
 // 练习2.1
+//def fib(n: Int): Int = {
+//  var a = 0
+//  var b = 1
+//  var i = 0
+//  while (i < n) {
+//    val prev_a = a
+//    a = b
+//    b = prev_a + b
+//    i = i + 1
+//  }
+//  a
+//}
+//You can often rewrite code that uses mutable
+// local variables to code with
+// helper functions that take accumulators
 def fib(n: Int): Int = {
-  def go(n: Int, acc1: Int, acc2: Int): Int = {
-    if (n<2) acc1
-    else go(n-1, acc2, acc1+acc2)
+  def go(i: Int, acc1: Int, acc2: Int): Int = {
+    if (i==n) acc1
+    else go(i+1, acc2, acc1+acc2)
   }
-  go(n, 0, 1)
+  go(0, 0, 1)
 }
 
+fib(0)
 fib(1)
 fib(2)
 fib(3)
@@ -70,6 +88,36 @@ def compare[A,B,C](f:B=>C, g:A=>B): A=>C =
 //  g andThen f
 //  f compose g
 
+def and(x:Boolean,y:Boolean): Boolean =
+  if (x) {
+    if (y)
+      true
+    else false
+    }
+  else
+    false
 
+and(true, true)
+and(false, true)
+and(false, false)
+and(true, false)
+
+def and1(x:Boolean,y: =>Boolean) = if (x) y else false
+def loop1: Boolean = loop1
+
+
+and1(true, true)
+and1(false, true)
+and1(false, false)
+and1(true, false)
+and1(false, loop1)
+
+def or(x:Boolean,y: => Boolean) = if (x) true else y
+
+or(true, true)
+or(false, true)
+or(false, false)
+or(true, false)
+or(true, loop1)
 
 
